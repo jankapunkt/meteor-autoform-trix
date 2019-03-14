@@ -105,6 +105,7 @@ makes use of the Blaze reactivity and `onRendered` in order to reactively update
     }
   }
 }
+```
 
 #### Reactive
 
@@ -121,7 +122,7 @@ makes use of the Blaze reactivity and `onRendered` in order to reactively update
     }
   }
 }
-
+```
 
 ### Events
 
@@ -142,6 +143,7 @@ You can hook into the trix events by using the following pattern within your sch
   }
 }
 ```
+
 Where `HookName` is one of the entries of the following mapping:
 
 | EventName                 	| HookName 	            |
