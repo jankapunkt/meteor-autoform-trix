@@ -182,4 +182,4 @@ If you want to access properties like `event.attachment` you need to get the `or
 
 ## License
 
-See [LICENSE](LICENSE.ms)
+See [LICENSE](LICENSE.md)
