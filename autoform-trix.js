@@ -8,7 +8,6 @@ Template.afTrix.onCreated(function () {
   const instance = this
   instance.state = new ReactiveDict()
   instance.state.set('dataSchemaKey', instance.data.atts[ 'data-schema-key' ])
-
   instance.autorun(() => {
     const data = Template.currentData()
     if (data.atts.config) {
@@ -19,6 +18,10 @@ Template.afTrix.onCreated(function () {
 
 Template.afTrix.onRendered(function () {
   const instance = this
+  if (instance.data.value) {
+    instance.$('#afTrixInput').prop('value', instance.data.value)
+  }
+  instance.state.set('loadComplete', true)
   instance.autorun(() => {
     const data = Template.currentData()
     if (data.atts.lang) {
@@ -30,6 +33,9 @@ Template.afTrix.onRendered(function () {
 Template.afTrix.helpers({
   dataSchemaKey () {
     return Template.instance().state.get('dataSchemaKey')
+  },
+  loadComplete () {
+    return Template.instance().state.get('loadComplete')
   }
 })
 

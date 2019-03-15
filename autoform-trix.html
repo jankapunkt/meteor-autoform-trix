@@ -1,7 +1,5 @@
 <template name="afTrix">
-    <div class="afTrixRoot">
-    <trix-editor input="afTrixInput" class="trix-content"></trix-editor>
-    <!-- autoform related -->
-    <input type="hidden" name="content" id="afTrixInput" data-schema-key="{{dataSchemaKey}}"/>
-    </div>
+	{{#if loadComplete}}<trix-editor input="afTrixInput" class="trix-content"></trix-editor>{{/if}}
+	<!-- autoform related -->
+	<input type="hidden" name="content" id="afTrixInput" data-schema-key="{{dataSchemaKey}}" />
 </template>
