@@ -2,7 +2,7 @@
 
 Package.describe({
   name: 'jkuester:autoform-trix',
-  version: '1.1.0',
+  version: '2.0.0',
   // Brief, one-line summary of the package.
   summary: 'Get the Trix wysiwyg-editor as configurable AutoForm extension.',
   // URL to the Git repository containing the source code for this package.
@@ -15,13 +15,8 @@ Package.describe({
 Package.onUse(function (api) {
   api.versionsFrom('1.6')
   api.use('ecmascript')
-  api.use('aldeed:autoform@6.0.0')
-  api.use('templating@1.3.2')
+  api.use('aldeed:autoform@6.0.0 || 7.0.0')
+  api.use('templating@1.4.2')
   api.use('reactive-dict')
-  api.addFiles([
-    'autoform-trix.html',
-    'autoform-trix.js',
-    'autoform-trix.css',
-    'autoform-config.js'
-  ], 'client')
+  api.mainModule('main.js', 'client')
 })

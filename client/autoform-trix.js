@@ -2,7 +2,18 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
 import { updateLang, createEventHook } from './autoform-helpers'
-import './autoform-config'
+import './autoform-trix.css'
+import './autoform-trix.html'
+
+AutoForm.addInputType('trix', {
+  template: 'afTrix',
+  valueOut () {
+    return this.val()
+  },
+  valueIn (initialValue) {
+    return initialValue
+  }
+})
 
 Template.afTrix.onCreated(function () {
   const instance = this
