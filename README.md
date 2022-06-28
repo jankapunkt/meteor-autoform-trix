@@ -14,20 +14,47 @@ Since this package is not bound to a specific version of trix, you need to insta
 ```bash
 $ cd projectdir
 $ meteor npm install --save trix@latest
+$ meteor add jkuester:autoform-trix
 ```
 
-Then import in your project the `trix-core` of the editor, because Meteor brings already all Polyfills that are required:
 
-```javascript
+## Import
+
+Starting with v2.0.0 this package defaults to support dynamic imports (but also allows static imports).
+
+
+### Dynamic
+
+To be able ´ load the trix form type, you will also have to load the  `trix-core` of the trix editor itself.
+A good way to wrap this all up is to use an async function:
+
+```js
+export const importTrixForm = async () => {
+  await import('trix/dist/trix-core')
+  await import('trix/dist/trix.css')
+  const loadAutoFormTrix = await import('meteor/jkuester:autoform-trix')
+  return loadAutoFormTrix.default()
+}
+```
+
+Note the `.default` here. This package's main module exports a default async function which you need to call
+in order to invoke the import of the form type.
+
+### Static
+
+It is also possible to statically import this package. While it's suggested to favor dynamic imports to minimize
+bundle size (and thus load times), there may be occasions with dynamic import not being available.
+
+In such case you can use the static import:
+
+```js
 import 'trix/dist/trix-core'
 import 'trix/dist/trix.css'
+import 'meteor/jkuester:autoform-trix/static'
 ```
 
-To add this plugin simply add it from atmosphere:
-
-```bash
-meteor add jkuester:autoform-trix
-```
+Remember, that this method will bundle up trix and this form type for the client and increases the initial
+client bundle.
 
 ## Documentation
 
