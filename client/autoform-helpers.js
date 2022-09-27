@@ -28,7 +28,14 @@ export const updateLang = function updateLang (newLang, templateInstance) {
 export const createEventHook = function createEventHook (eventName) {
   return function afTrixEventHook (event, templateInstance) {
     const { events } = templateInstance.data.atts
-    if (events && events[ eventName ]) {
+    const eventDef = events && events[eventName]
+
+    // allow clients to block events
+    if (eventDef === false) {
+      return event.preventDefault()
+    }
+
+    if (eventDef) {
       events[ eventName ](event, templateInstance)
     }
   }

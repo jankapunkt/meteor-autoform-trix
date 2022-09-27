@@ -21,6 +21,7 @@ Template.afTrix.onCreated(function () {
   instance.state.set('dataSchemaKey', instance.data.atts[ 'data-schema-key' ])
   instance.autorun(() => {
     const data = Template.currentData()
+
     if (data.atts.config) {
       Trix.config = Object.assign({}, Trix.config, data.atts.config)
     }
@@ -35,8 +36,15 @@ Template.afTrix.onRendered(function () {
   instance.state.set('loadComplete', true)
   instance.autorun(() => {
     const data = Template.currentData()
+
     if (data.atts.lang) {
       updateLang(data.atts.lang, instance)
+    }
+
+    if (data.atts.attachments === false) {
+      setTimeout(() => {
+        $('.trix-button-group--file-tools').addClass('d-none')
+      }, 300)
     }
   })
 })

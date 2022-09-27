@@ -209,6 +209,24 @@ If you want to access properties like `event.attachment` you need to get the `or
 }
 ```
 
+### Block events
+
+If you want to block events, simply set them to `false`:
+
+```javascript
+{
+  fieldName: {
+    type: String,
+    autoform: {
+      type: 'trix',
+        events: {
+          attachmentAdd: false
+        }
+  }
+}
+```
+
+
 ## License
 
 See [LICENSE](LICENSE.md)
