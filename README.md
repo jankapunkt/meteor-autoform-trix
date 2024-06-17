@@ -30,7 +30,7 @@ A good way to wrap this all up is to use an async function:
 
 ```js
 export const importTrixForm = async () => {
-  await import('trix/dist/trix-core')
+  await import('trix/dist/trix.esm.js')
   await import('trix/dist/trix.css')
   const loadAutoFormTrix = await import('meteor/jkuester:autoform-trix')
   return loadAutoFormTrix.default()
@@ -48,7 +48,7 @@ bundle size (and thus load times), there may be occasions with dynamic import no
 In such case you can use the static import:
 
 ```js
-import 'trix/dist/trix-core'
+import 'trix/dist/trix.esm.js'
 import 'trix/dist/trix.css'
 import 'meteor/jkuester:autoform-trix/static'
 ```
@@ -163,7 +163,7 @@ You can hook into the trix events by using the following pattern within your sch
       type: 'trix',
       events: {
         <HookName>(event, templateInstace) {
-          
+          //...
         }
       }
     }
@@ -195,16 +195,17 @@ If you want to access properties like `event.attachment` you need to get the `or
     type: String,
     autoform: {
       type: 'trix',
-        events: {
-          attachmentAdd ($event) {
-            const event = $event.originalEvent
-            if (event.attachment.file) {
-              //... process file using your upload library
-              // then set attachment like in this example:
-              // https://trix-editor.org/js/attachments.js
-            }
+      events: {
+        attachmentAdd ($event) {
+          const event = $event.originalEvent
+          if (event.attachment.file) {
+            //... process file using your upload library
+            // then set attachment like in this example:
+            // https://trix-editor.org/js/attachments.js
           }
         }
+      }
+    }
   }
 }
 ```
@@ -219,13 +220,28 @@ If you want to block events, simply set them to `false`:
     type: String,
     autoform: {
       type: 'trix',
-        events: {
-          attachmentAdd: false
-        }
-  }
+      events: {
+        attachmentAdd: false
+      }
+    }
 }
 ```
 
+### Disable attachments entirely
+
+If you want to disable attachments, you can simply pass `attachments: false` as config:
+
+```javascript
+{
+  fieldName: {
+    type: String,
+    autoform: {
+      type: 'trix',
+      attachments: false
+    }  
+  }
+}
+```
 
 ## License
 

@@ -21,7 +21,7 @@ export const updateLang = function updateLang (newLang, templateInstance) {
     })
   })
 
-  Trix.config.lang = newLang
+  //Trix.config.lang = newLang
 }
 
 // generator fct for the hooks

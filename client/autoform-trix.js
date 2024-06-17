@@ -18,12 +18,16 @@ AutoForm.addInputType('trix', {
 Template.afTrix.onCreated(function () {
   const instance = this
   instance.state = new ReactiveDict()
-  instance.state.set('dataSchemaKey', instance.data.atts[ 'data-schema-key' ])
+  instance.state.set('dataSchemaKey', instance.data.atts['data-schema-key'])
   instance.autorun(() => {
     const data = Template.currentData()
 
     if (data.atts.config) {
-      Trix.config = Object.assign({}, Trix.config, data.atts.config)
+      Object.assign(Trix.config, data.atts.config)
+    }
+
+    if (data.atts.lang) {
+      Object.assign(Trix.config.lang, data.atts.lang)
     }
   })
 })
@@ -36,10 +40,6 @@ Template.afTrix.onRendered(function () {
   instance.state.set('loadComplete', true)
   instance.autorun(() => {
     const data = Template.currentData()
-
-    if (data.atts.lang) {
-      updateLang(data.atts.lang, instance)
-    }
 
     if (data.atts.attachments === false) {
       setTimeout(() => {
@@ -75,7 +75,7 @@ const eventMap = {
 // based on the event mapping
 const events = {}
 Object.keys(eventMap).forEach(eventKey => {
-  events[ eventKey ] = createEventHook(eventMap[ eventKey ])
+  events[eventKey] = createEventHook(eventMap[eventKey])
 })
 
 // attach events to the template
