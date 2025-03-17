@@ -1,5 +1,6 @@
 /* global Trix AutoForm */
 import { Template } from 'meteor/templating'
+import { Random } from 'meteor/random'
 import { ReactiveDict } from 'meteor/reactive-dict'
 import { updateLang, createEventHook } from './autoform-helpers'
 import './autoform-trix.css'
@@ -17,6 +18,7 @@ AutoForm.addInputType('trix', {
 
 Template.afTrix.onCreated(function () {
   const instance = this
+  instance.id = Random.id(8)
   instance.state = new ReactiveDict()
   instance.state.set('dataSchemaKey', instance.data.atts['data-schema-key'])
   instance.autorun(() => {
@@ -29,13 +31,35 @@ Template.afTrix.onCreated(function () {
     if (data.atts.lang) {
       Object.assign(Trix.config.lang, data.atts.lang)
     }
+
+    // update schema key, if needed
+    const dsk = data.atts['data-schema-key']
+    if (dsk && instance.state.get('dataSchemaKey') !== dsk) {
+      instance.state.set('dataSchemaKey', dsk)
+    }
   })
 })
 
 Template.afTrix.onRendered(function () {
   const instance = this
   if (instance.data.value) {
-    instance.$('#afTrixInput').prop('value', instance.data.value)
+    const dsk = instance.state.get('dataSchemaKey')
+    let target = instance.$(`#afTrixInput-${dsk}`)
+
+    // XXX: in some edge cases it will not find the element by id
+    // for example when being part of an object in array
+    if (!target.get(0)) {
+      target = instance.$(`[data-instance="${instance.id}"]`)
+    }
+
+    // XXX: if we still have not found anything,
+    // we throw explicitly to make sure, devs
+    // used the correct arguments
+    if (!target.get(0)) {
+      throw new Error(`No input field found for data-schema-key "${dsk}" or instance id "${instance.id}"`)
+    }
+
+    target.prop('value', instance.data.value)
   }
   instance.state.set('loadComplete', true)
   instance.autorun(() => {
@@ -55,6 +79,9 @@ Template.afTrix.helpers({
   },
   loadComplete () {
     return Template.instance().state.get('loadComplete')
+  },
+  instanceId () {
+    return Template.instance().id
   }
 })
 
