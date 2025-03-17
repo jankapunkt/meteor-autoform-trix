@@ -22,7 +22,6 @@ $ meteor add jkuester:autoform-trix
 
 Starting with v2.0.0 this package defaults to support dynamic imports (but also allows static imports).
 
-
 ### Dynamic
 
 To be able ´ load the trix form type, you will also have to load the  `trix-core` of the trix editor itself.
